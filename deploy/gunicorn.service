@@ -1,0 +1,22 @@
+[Unit]
+Description=Green Decor gunicorn daemon
+Requires=green-decor.socket
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/srv/green-decor/app
+EnvironmentFile=/srv/green-decor/app/.env
+ExecStart=/srv/green-decor/venv/bin/gunicorn \
+    --workers 3 \
+    --bind unix:/run/green-decor.sock \
+    --access-logfile - \
+    --error-logfile - \
+    green_decor.wsgi:application
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

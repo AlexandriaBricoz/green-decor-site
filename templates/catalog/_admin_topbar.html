@@ -1,0 +1,18 @@
+<header class="flex justify-between items-center px-6 md:px-8 h-20 w-full bg-stone-50 dark:bg-stone-950 font-headline text-sm font-semibold tracking-tight">
+  <div class="text-xl font-bold text-green-900 dark:text-green-200 uppercase tracking-widest">
+    Green Decor
+  </div>
+  <div class="flex items-center gap-6">
+    <span class="hidden md:inline text-xs text-on-surface-variant font-label normal-case tracking-normal">
+      {{ user.get_username }}
+    </span>
+    <a href="{% url 'catalog:home' %}" class="text-green-800 dark:text-green-400 hover:opacity-70" title="Открыть публичный сайт">
+      <span class="material-symbols-outlined">storefront</span>
+    </a>
+    <form method="post" action="{% url 'logout' %}" class="inline">{% csrf_token %}
+      <button type="submit" class="text-green-800 dark:text-green-400 hover:opacity-70" title="Выйти">
+        <span class="material-symbols-outlined">logout</span>
+      </button>
+    </form>
+  </div>
+</header>

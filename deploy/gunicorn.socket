@@ -1,0 +1,11 @@
+[Unit]
+Description=Green Decor gunicorn socket
+
+[Socket]
+ListenStream=/run/green-decor.sock
+SocketUser=www-data
+SocketGroup=www-data
+SocketMode=0660
+
+[Install]
+WantedBy=sockets.target

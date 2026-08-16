@@ -1,0 +1,56 @@
+name: green-decor
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: green-decor-web:latest
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
+    volumes:
+      - media:/app/media
+    networks:
+      - internal
+      - traefik-public
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-public
+      # HTTP роутер: сам Traefik сделает redirect на HTTPS (см. traefik/compose.yml)
+      - traefik.http.routers.greendecor.rule=Host(`${SITE_DOMAIN}`) || Host(`www.${SITE_DOMAIN}`)
+      - traefik.http.routers.greendecor.entrypoints=web
+      # HTTPS роутер
+      - traefik.http.routers.greendecor-secure.rule=Host(`${SITE_DOMAIN}`) || Host(`www.${SITE_DOMAIN}`)
+      - traefik.http.routers.greendecor-secure.entrypoints=websecure
+      - traefik.http.routers.greendecor-secure.tls=true
+      - traefik.http.routers.greendecor-secure.tls.certresolver=le
+      - traefik.http.services.greendecor.loadbalancer.server.port=8000
+
+networks:
+  internal:
+  traefik-public:
+    external: true
+
+volumes:
+  db_data:
+  media:

@@ -1,0 +1,39 @@
+{% load static %}
+<!-- Admin Shell (sidebar + topbar) -->
+<aside class="fixed left-0 top-0 h-full hidden md:flex flex-col p-4 gap-2 bg-stone-100 dark:bg-stone-900 w-64 border-none">
+  <div class="flex items-center gap-3 px-4 py-6 mb-4">
+    <div class="w-10 h-10 rounded-xl deep-forest-gradient flex items-center justify-center text-white">
+      <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">eco</span>
+    </div>
+    <div>
+      <p class="font-headline font-bold text-on-surface leading-tight">Админ-панель</p>
+      <p class="text-xs text-on-surface-variant">Оптовое управление</p>
+    </div>
+  </div>
+  <nav class="flex-1 flex flex-col gap-1">
+    <a href="{% url 'catalog:inventory' %}" class="{% if active_nav == 'inventory' %}bg-green-800/10 text-green-800 dark:text-green-400 font-bold{% else %}text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-800{% endif %} rounded-lg px-4 py-3 flex items-center gap-3 transition-all">
+      <span class="material-symbols-outlined" {% if active_nav == 'inventory' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>potted_plant</span>
+      Каталог растений
+    </a>
+    <a href="{% url 'catalog:plant_create' %}" class="{% if active_nav == 'create' %}bg-green-800/10 text-green-800 dark:text-green-400 font-bold{% else %}text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-800{% endif %} rounded-lg px-4 py-3 flex items-center gap-3 transition-all">
+      <span class="material-symbols-outlined" {% if active_nav == 'create' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>add_circle</span>
+      Добавить растение
+    </a>
+    <a href="{% url 'catalog:home' %}" class="text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-800 rounded-lg px-4 py-3 flex items-center gap-3 transition-all">
+      <span class="material-symbols-outlined">storefront</span>
+      Публичный сайт
+    </a>
+    <a href="{% url 'catalog:settings' %}" class="{% if active_nav == 'settings' %}bg-green-800/10 text-green-800 dark:text-green-400 font-bold{% else %}text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-800{% endif %} rounded-lg px-4 py-3 flex items-center gap-3 transition-all">
+      <span class="material-symbols-outlined" {% if active_nav == 'settings' %}style="font-variation-settings: 'FILL' 1;"{% endif %}>settings</span>
+      Настройки сайта
+    </a>
+    <a href="/django-admin/" class="text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-800 rounded-lg px-4 py-3 flex items-center gap-3 transition-all text-xs">
+      <span class="material-symbols-outlined text-base">manage_accounts</span>
+      Системная админка
+    </a>
+  </nav>
+  <a href="{% url 'catalog:price_xlsx' %}" class="mt-auto bg-surface-container-highest text-on-surface py-3 px-4 rounded-lg font-semibold hover:bg-outline-variant/40 transition-colors flex items-center justify-center gap-2">
+    <span class="material-symbols-outlined text-base">description</span>
+    Сформировать отчёт
+  </a>
+</aside>

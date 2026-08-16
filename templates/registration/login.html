@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Вход — Green Decor{% endblock %}
+
+{% block body %}
+<div class="min-h-screen flex items-center justify-center px-6 py-12 bg-surface-container-low">
+  <div class="w-full max-w-md">
+    <div class="text-center mb-10">
+      <a href="{% url 'catalog:home' %}" class="inline-flex items-center gap-3">
+        <span class="w-12 h-12 rounded-xl deep-forest-gradient flex items-center justify-center text-white">
+          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">eco</span>
+        </span>
+        <span class="font-headline font-extrabold tracking-tighter text-2xl text-green-900 uppercase">Green Decor</span>
+      </a>
+      <p class="text-on-surface-variant text-xs uppercase tracking-widest font-label mt-4">Вход в админ-панель</p>
+    </div>
+
+    <div class="bg-surface-container-lowest rounded-xl p-8 md:p-10 shadow-2xl shadow-stone-900/5">
+
+      {% if form.non_field_errors %}
+        <div class="mb-6 p-4 bg-error/10 text-error rounded-md text-sm">
+          {{ form.non_field_errors|join:" " }}
+        </div>
+      {% endif %}
+
+      <form method="post" class="space-y-6">
+        {% csrf_token %}
+        <div class="space-y-2">
+          <label for="{{ form.username.id_for_label }}" class="text-xs font-headline font-bold uppercase tracking-widest text-stone-500">Логин</label>
+          <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" value="{{ form.username.value|default_if_none:'' }}"
+                 class="w-full bg-surface-container-high border-none rounded-md px-6 py-4 focus:ring-2 focus:ring-primary/40" autofocus required/>
+        </div>
+        <div class="space-y-2">
+          <label for="{{ form.password.id_for_label }}" class="text-xs font-headline font-bold uppercase tracking-widest text-stone-500">Пароль</label>
+          <input type="password" name="{{ form.password.name }}" id="{{ form.password.id_for_label }}"
+                 class="w-full bg-surface-container-high border-none rounded-md px-6 py-4 focus:ring-2 focus:ring-primary/40" required/>
+        </div>
+        <input type="hidden" name="next" value="{{ next }}"/>
+        <button type="submit" class="w-full deep-forest-gradient text-white py-4 rounded-md font-headline font-bold uppercase tracking-widest text-sm shadow-lg shadow-primary/10 hover:opacity-90 transition-opacity">
+          Войти
+        </button>
+      </form>
+    </div>
+
+    <p class="text-center text-xs text-on-surface-variant mt-6">
+      <a href="{% url 'catalog:home' %}" class="hover:text-primary transition-colors">← Вернуться на сайт</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

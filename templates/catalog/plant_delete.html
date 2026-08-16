@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Удалить растение | Green Decor{% endblock %}
+{% block body_class %}min-h-screen flex{% endblock %}
+
+{% block body %}
+{% include "catalog/_admin_shell.html" with active_nav="inventory" %}
+
+<main class="md:ml-64 flex-1 flex flex-col">
+  {% include "catalog/_admin_topbar.html" %}
+
+  <section class="flex-1 px-6 md:px-12 py-16 max-w-2xl w-full mx-auto">
+    <div class="bg-surface-container-lowest rounded-xl p-8 md:p-12 shadow-xl shadow-stone-900/5">
+      <div class="w-16 h-16 rounded-full bg-error/10 flex items-center justify-center mb-6">
+        <span class="material-symbols-outlined text-error text-3xl">warning</span>
+      </div>
+      <h1 class="text-2xl md:text-3xl font-headline font-extrabold tracking-tight mb-4">Удалить растение?</h1>
+      <p class="text-on-surface-variant mb-8">
+        Вы собираетесь удалить позицию <strong>«{{ plant.name }}»</strong> (артикул {{ plant.sku }}).
+        Это действие нельзя отменить.
+      </p>
+      <form method="post" class="flex flex-col-reverse md:flex-row gap-4 justify-end">
+        {% csrf_token %}
+        <a href="{% url 'catalog:inventory' %}" class="px-8 py-4 rounded-md bg-surface-container-highest text-on-surface font-headline font-bold uppercase tracking-widest text-xs text-center hover:bg-surface-container-high transition-colors">
+          Отмена
+        </a>
+        <button type="submit" class="px-8 py-4 rounded-md bg-error text-white font-headline font-bold uppercase tracking-widest text-xs hover:opacity-90 transition-opacity">
+          Удалить
+        </button>
+      </form>
+    </div>
+  </section>
+</main>
+{% endblock %}

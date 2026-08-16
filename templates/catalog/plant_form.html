@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block title %}{% if is_edit %}Редактировать растение{% else %}Новое растение{% endif %} | Green Decor{% endblock %}
+{% block body_class %}min-h-screen flex{% endblock %}
+
+{% block body %}
+{% include "catalog/_admin_shell.html" with active_nav="create" %}
+
+<main class="md:ml-64 flex-1 flex flex-col">
+  {% include "catalog/_admin_topbar.html" %}
+
+  <section class="flex-1 px-6 md:px-12 py-12 max-w-5xl w-full mx-auto">
+
+    <div class="mb-12 flex items-end justify-between gap-6 flex-wrap">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-headline font-extrabold tracking-tight text-on-surface mb-2">
+          {% if is_edit %}Редактирование{% else %}Новое растение{% endif %}
+        </h1>
+        <p class="text-on-surface-variant font-label tracking-wide uppercase text-xs">
+          {% if is_edit %}Изменение позиции «{{ plant.name }}»{% else %}Добавление позиции в оптовый каталог{% endif %}
+        </p>
+      </div>
+      <a href="{% url 'catalog:inventory' %}" class="text-on-surface-variant hover:text-on-surface text-sm font-semibold flex items-center gap-2">
+        <span class="material-symbols-outlined text-base">arrow_back</span>
+        К списку
+      </a>
+    </div>
+
+    {% if form.non_field_errors %}
+      <div class="mb-6 p-4 bg-error/10 text-error rounded-lg text-sm">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="grid grid-cols-12 gap-6">
+      {% csrf_token %}
+
+      <!-- Main info -->
+      <div class="col-span-12 md:col-span-8 p-6 md:p-8 bg-surface-container-lowest rounded-xl">
+        <div class="grid grid-cols-2 gap-6">
+          <div class="col-span-2">
+            <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2" for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
+            {{ form.name }}
+            {% if form.name.errors %}<p class="text-xs text-error mt-1">{{ form.name.errors|join:" " }}</p>{% endif %}
+          </div>
+          <div class="col-span-2 md:col-span-1">
+            <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2" for="{{ form.sku.id_for_label }}">{{ form.sku.label }}</label>
+            {{ form.sku }}
+            {% if form.sku.errors %}<p class="text-xs text-error mt-1">{{ form.sku.errors|join:" " }}</p>{% endif %}
+          </div>
+          <div class="col-span-2 md:col-span-1">
+            <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2" for="{{ form.age_years.id_for_label }}">{{ form.age_years.label }}</label>
+            {{ form.age_years }}
+            {% if form.age_years.errors %}<p class="text-xs text-error mt-1">{{ form.age_years.errors|join:" " }}</p>{% endif %}
+          </div>
+          <div class="col-span-2 md:col-span-1">
+            <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2" for="{{ form.size_cm.id_for_label }}">{{ form.size_cm.label }}</label>
+            {{ form.size_cm }}
+            {% if form.size_cm.errors %}<p class="text-xs text-error mt-1">{{ form.size_cm.errors|join:" " }}</p>{% endif %}
+          </div>
+          <div class="col-span-2 md:col-span-1">
+            <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2" for="{{ form.quantity.id_for_label }}">{{ form.quantity.label }}</label>
+            {{ form.quantity }}
+            {% if form.quantity.errors %}<p class="text-xs text-error mt-1">{{ form.quantity.errors|join:" " }}</p>{% endif %}
+          </div>
+          <div class="col-span-2 md:col-span-1">
+            <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2" for="{{ form.price.id_for_label }}">{{ form.price.label }}</label>
+            {{ form.price }}
+            {% if form.price.errors %}<p class="text-xs text-error mt-1">{{ form.price.errors|join:" " }}</p>{% endif %}
+          </div>
+          <div class="col-span-2">
+            <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2" for="{{ form.external_url.id_for_label }}">
+              {{ form.external_url.label }}
+              <span class="ml-1 text-stone-400 normal-case tracking-normal font-normal">(видео / галерея, необязательно)</span>
+            </label>
+            {{ form.external_url }}
+            {% if form.external_url.errors %}<p class="text-xs text-error mt-1">{{ form.external_url.errors|join:" " }}</p>{% endif %}
+          </div>
+          <div class="col-span-2">
+            <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2" for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+            {{ form.description }}
+            {% if form.description.errors %}<p class="text-xs text-error mt-1">{{ form.description.errors|join:" " }}</p>{% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Photo upload -->
+      <div id="photo-card"
+           class="col-span-12 md:col-span-4 bg-surface-container-lowest rounded-xl p-6 md:p-8 flex flex-col items-center justify-center text-center relative cursor-pointer group transition-all hover:bg-surface-container-low border-2 border-dashed border-transparent hover:border-primary/30">
+        <div id="photo-preview-wrap" class="w-32 h-32 rounded-lg overflow-hidden mb-4 bg-surface-container flex items-center justify-center {% if not plant.photo %}hidden{% endif %}">
+          <img id="photo-preview" class="w-full h-full object-cover"
+               src="{% if plant.photo %}{{ plant.photo.url }}{% endif %}" alt="{{ plant.name|default:'Превью' }}"/>
+        </div>
+        <div id="photo-placeholder" class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center mb-4 group-hover:bg-secondary-container transition-colors {% if plant.photo %}hidden{% endif %}">
+          <span class="material-symbols-outlined text-primary text-3xl">add_a_photo</span>
+        </div>
+        <p id="photo-title" class="font-headline font-bold text-sm text-on-surface mb-2">
+          {% if plant.photo %}Заменить фото{% else %}Загрузить фото{% endif %}
+        </p>
+        <p id="photo-hint" class="text-xs text-on-surface-variant mb-4 leading-relaxed px-2">
+          Нажмите или перетащите файл. PNG / JPG до 5 МБ.
+        </p>
+        <button type="button" id="photo-clear" class="text-xs font-headline font-bold uppercase tracking-widest text-error hover:opacity-70 {% if not plant.photo %}hidden{% endif %}">
+          Убрать выбранное
+        </button>
+        <input type="file" name="{{ form.photo.name }}" id="{{ form.photo.id_for_label }}" accept="image/*"
+               class="absolute inset-0 opacity-0 cursor-pointer z-10"/>
+        {% if form.photo.errors %}<p class="text-xs text-error mt-2 relative z-20">{{ form.photo.errors|join:" " }}</p>{% endif %}
+      </div>
+
+      <!-- Visibility -->
+      <div class="col-span-12 bg-surface-container-lowest rounded-xl p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <p class="font-headline font-bold text-on-surface mb-1">Видимость в публичном прайсе</p>
+          <p class="text-xs text-on-surface-variant leading-relaxed max-w-2xl">
+            Если включено — позиция отображается в Excel-прайсе, который клиенты скачивают с главной страницы, и в блоке «Свежие поступления».
+          </p>
+        </div>
+        <label class="flex items-center gap-3 cursor-pointer select-none">
+          {{ form.is_public }}
+          <span class="text-sm font-headline font-bold uppercase tracking-widest text-on-surface">
+            Показывать клиентам
+          </span>
+        </label>
+      </div>
+
+      <!-- Actions -->
+      <div class="col-span-12 flex flex-col-reverse md:flex-row items-stretch md:items-center justify-end gap-4 md:gap-6 mt-4">
+        <a href="{% url 'catalog:inventory' %}" class="text-on-surface font-semibold text-sm hover:underline transition-all text-center md:text-right">
+          Отмена
+        </a>
+        <button type="submit" class="deep-forest-gradient text-white h-14 px-10 rounded-lg font-headline font-bold text-base shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity">
+          {% if is_edit %}Сохранить изменения{% else %}Сохранить растение{% endif %}
+        </button>
+      </div>
+    </form>
+
+    {% if not is_edit %}
+    <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+      <div class="p-6 bg-surface-container-low rounded-lg">
+        <span class="material-symbols-outlined text-primary mb-3">verified_user</span>
+        <h3 class="font-bold text-on-surface mb-2">Стандарт качества</h3>
+        <p class="text-xs text-on-surface-variant leading-relaxed">Параметры должны соответствовать ГОСТ 24835-81 для хвойных пород.</p>
+      </div>
+      <div class="p-6 bg-surface-container-low rounded-lg">
+        <span class="material-symbols-outlined text-primary mb-3">inventory_2</span>
+        <h3 class="font-bold text-on-surface mb-2">Учёт запасов</h3>
+        <p class="text-xs text-on-surface-variant leading-relaxed">Автоматическое обновление складской ведомости после сохранения.</p>
+      </div>
+      <div class="p-6 bg-surface-container-low rounded-lg">
+        <span class="material-symbols-outlined text-primary mb-3">visibility</span>
+        <h3 class="font-bold text-on-surface mb-2">Предпросмотр</h3>
+        <p class="text-xs text-on-surface-variant leading-relaxed">Растение появится в общем каталоге сразу после сохранения.</p>
+      </div>
+    </div>
+    {% endif %}
+  </section>
+
+  <footer class="flex justify-between items-center px-6 md:px-8 py-6 w-full border-t border-stone-200/40 bg-stone-50 text-xs text-stone-500">
+    <p>© 2024 Green Decor. Система управления оптовым инвентарём.</p>
+  </footer>
+</main>
+
+<script>
+(function () {
+  const card = document.getElementById('photo-card');
+  const input = document.getElementById('{{ form.photo.id_for_label }}');
+  const previewWrap = document.getElementById('photo-preview-wrap');
+  const preview = document.getElementById('photo-preview');
+  const placeholder = document.getElementById('photo-placeholder');
+  const title = document.getElementById('photo-title');
+  const hint = document.getElementById('photo-hint');
+  const clearBtn = document.getElementById('photo-clear');
+  if (!card || !input) return;
+
+  const MAX_BYTES = 5 * 1024 * 1024;
+  const originalSrc = preview.getAttribute('src') || '';
+
+  function showPreview(src) {
+    preview.src = src;
+    previewWrap.classList.remove('hidden');
+    placeholder.classList.add('hidden');
+    title.textContent = 'Заменить фото';
+    clearBtn.classList.remove('hidden');
+  }
+
+  function resetPreview() {
+    input.value = '';
+    preview.src = originalSrc;
+    if (!originalSrc) {
+      previewWrap.classList.add('hidden');
+      placeholder.classList.remove('hidden');
+      title.textContent = 'Загрузить фото';
+      clearBtn.classList.add('hidden');
+    } else {
+      title.textContent = 'Заменить фото';
+    }
+    hint.textContent = 'Нажмите или перетащите файл. PNG / JPG до 5 МБ.';
+    hint.classList.remove('text-error');
+  }
+
+  function handleFile(file) {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      hint.textContent = 'Можно загружать только изображения.';
+      hint.classList.add('text-error');
+      input.value = '';
+      return;
+    }
+    if (file.size > MAX_BYTES) {
+      hint.textContent = 'Файл больше 5 МБ.';
+      hint.classList.add('text-error');
+      input.value = '';
+      return;
+    }
+    hint.classList.remove('text-error');
+    hint.textContent = file.name + ' (' + Math.round(file.size / 1024) + ' КБ)';
+    const reader = new FileReader();
+    reader.onload = (e) => showPreview(e.target.result);
+    reader.readAsDataURL(file);
+  }
+
+  input.addEventListener('change', () => handleFile(input.files[0]));
+
+  ['dragenter', 'dragover'].forEach((ev) =>
+    card.addEventListener(ev, (e) => {
+      e.preventDefault();
+      card.classList.add('border-primary', 'bg-secondary-container/20');
+    })
+  );
+  ['dragleave', 'drop'].forEach((ev) =>
+    card.addEventListener(ev, (e) => {
+      e.preventDefault();
+      card.classList.remove('border-primary', 'bg-secondary-container/20');
+    })
+  );
+  card.addEventListener('drop', (e) => {
+    if (e.dataTransfer && e.dataTransfer.files.length) {
+      try {
+        const dt = new DataTransfer();
+        dt.items.add(e.dataTransfer.files[0]);
+        input.files = dt.files;
+      } catch (err) { /* ignore */ }
+      handleFile(e.dataTransfer.files[0]);
+    }
+  });
+
+  clearBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    resetPreview();
+  });
+})();
+</script>
+{% endblock %}

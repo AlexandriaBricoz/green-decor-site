@@ -1,0 +1,143 @@
+{% load static %}<!DOCTYPE html>
+<html class="light" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>{% block title %}Green Decor — Оптовый питомник хвойных растений{% endblock %}</title>
+
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Inter:wght@300;400;500;600&display=swap"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"/>
+
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "surface-container-high": "#e8e8e8",
+          "on-background": "#1a1c1c",
+          "surface-bright": "#f9f9f9",
+          "surface-tint": "#006e0c",
+          "on-secondary": "#ffffff",
+          "secondary-fixed": "#d3e8d0",
+          "on-primary": "#ffffff",
+          "on-secondary-container": "#546754",
+          "error": "#ba1a1a",
+          "surface-variant": "#e2e2e2",
+          "outline": "#6f7a6a",
+          "on-primary-fixed": "#002201",
+          "tertiary-container": "#c5447f",
+          "outline-variant": "#becab7",
+          "on-surface-variant": "#3f4a3b",
+          "surface-container-highest": "#e2e2e2",
+          "primary": "#006c0c",
+          "primary-container": "#1c871e",
+          "on-error": "#ffffff",
+          "tertiary": "#a52a66",
+          "on-tertiary-container": "#fffbff",
+          "on-error-container": "#93000a",
+          "on-surface": "#1a1c1c",
+          "primary-fixed-dim": "#77dd6a",
+          "surface-container": "#eeeeee",
+          "on-secondary-fixed-variant": "#394b39",
+          "on-tertiary-fixed-variant": "#890f50",
+          "tertiary-fixed": "#ffd9e4",
+          "inverse-primary": "#77dd6a",
+          "on-primary-fixed-variant": "#005307",
+          "secondary": "#506350",
+          "surface": "#f9f9f9",
+          "inverse-surface": "#2f3131",
+          "on-tertiary-fixed": "#3e0020",
+          "tertiary-fixed-dim": "#ffb0cc",
+          "on-primary-container": "#f8fff0",
+          "surface-dim": "#dadada",
+          "primary-fixed": "#92fa83",
+          "on-secondary-fixed": "#0e1f10",
+          "surface-container-lowest": "#ffffff",
+          "secondary-container": "#d0e6cd",
+          "secondary-fixed-dim": "#b7ccb5",
+          "error-container": "#ffdad6",
+          "inverse-on-surface": "#f1f1f1",
+          "on-tertiary": "#ffffff",
+          "background": "#f9f9f9",
+          "surface-container-low": "#f3f3f3"
+        },
+        borderRadius: {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        fontFamily: {
+          "headline": ["Manrope"],
+          "body": ["Inter"],
+          "label": ["Inter"]
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+  }
+  .deep-forest-gradient {
+    background: linear-gradient(135deg, #006c0c 0%, #1c871e 100%);
+  }
+  .editorial-gap { margin-bottom: 5rem; }
+  body { font-family: 'Inter', sans-serif; }
+  h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+</style>
+{% block extra_head %}{% endblock %}
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary/20 {% block body_class %}{% endblock %}">
+
+{% if messages %}
+<div class="fixed top-6 right-6 z-[200] flex flex-col gap-3 max-w-sm">
+  {% for message in messages %}
+    <div class="px-6 py-4 rounded-lg shadow-xl shadow-stone-900/10 bg-surface-container-lowest border-l-4
+                {% if message.tags == 'success' %}border-primary text-on-surface
+                {% elif message.tags == 'error' %}border-error text-error
+                {% elif message.tags == 'warning' %}border-tertiary text-tertiary
+                {% else %}border-secondary text-on-surface{% endif %}">
+      <p class="text-sm font-medium">{{ message }}</p>
+    </div>
+  {% endfor %}
+</div>
+<script>
+  setTimeout(() => document.querySelectorAll('.fixed.top-6.right-6 > div').forEach(el => el.remove()), 5000);
+</script>
+{% endif %}
+
+{% block body %}{% endblock %}
+
+<div id="cookie-banner" class="fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:bottom-6 md:max-w-md z-[150] hidden bg-surface-container-lowest border border-stone-200 shadow-2xl shadow-stone-900/10 rounded-xl p-5">
+  <p class="text-xs text-on-surface leading-relaxed mb-4">
+    Сайт использует технические файлы cookies, необходимые для его корректной работы. Продолжая пользоваться Сайтом, вы соглашаетесь с
+    <a href="{% url 'catalog:privacy' %}" class="text-primary underline underline-offset-4 hover:opacity-80">политикой конфиденциальности</a>.
+  </p>
+  <button type="button" id="cookie-accept" class="w-full deep-forest-gradient text-white py-2.5 rounded-md font-headline font-bold uppercase tracking-widest text-xs hover:opacity-90 transition-opacity">
+    Понятно
+  </button>
+</div>
+<script>
+(function(){
+  var KEY = 'gd_cookie_ack_v1';
+  var banner = document.getElementById('cookie-banner');
+  if (!banner) return;
+  try { if (localStorage.getItem(KEY) === '1') return; } catch(_) {}
+  banner.classList.remove('hidden');
+  document.getElementById('cookie-accept').addEventListener('click', function(){
+    try { localStorage.setItem(KEY, '1'); } catch(_){}
+    banner.remove();
+  });
+})();
+</script>
+
+</body>
+</html>

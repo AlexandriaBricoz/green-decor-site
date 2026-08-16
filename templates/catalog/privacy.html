@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Политика конфиденциальности — Green Decor{% endblock %}
+
+{% block body %}
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-stone-950/80 backdrop-blur-md shadow-sm shadow-stone-900/5">
+  <div class="flex justify-between items-center px-6 md:px-12 py-6 max-w-screen-2xl mx-auto">
+    <a href="{% url 'catalog:home' %}" class="text-2xl font-bold tracking-tighter text-green-900 dark:text-green-100 font-headline uppercase">
+      Green Decor
+    </a>
+    <a href="{% url 'catalog:home' %}" class="font-headline font-bold uppercase tracking-widest text-xs text-on-surface-variant hover:text-primary transition-colors">
+      На главную
+    </a>
+  </div>
+</nav>
+
+<main class="pt-32 pb-24 px-6 md:px-12 max-w-3xl mx-auto">
+  <header class="mb-12">
+    <span class="inline-block font-headline font-bold uppercase tracking-[0.4em] text-xs text-primary mb-4">Правовая информация</span>
+    <h1 class="text-4xl md:text-5xl font-headline font-extrabold tracking-tight text-on-surface mb-4">Политика конфиденциальности</h1>
+    <p class="text-sm text-stone-500">Действует с 14 августа 2026 г.</p>
+    <div class="w-24 h-1 bg-primary mt-8"></div>
+  </header>
+
+  <section class="space-y-10 text-on-surface/90 leading-relaxed">
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">1. Общие положения</h2>
+      <p>Настоящая Политика определяет порядок обработки персональных данных пользователей сайта Green Decor (далее — «Сайт»). Используя Сайт и оставляя свои данные через формы обратной связи, пользователь подтверждает согласие с условиями настоящей Политики.</p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">2. Оператор персональных данных</h2>
+      <p>Оператором персональных данных является Green Decor.<br/>
+      ИНН: 565100366000.<br/>
+      Адрес: г. Оренбург, Загородное шоссе, 37/2.<br/>
+      Контакты для связи: <a class="text-primary underline underline-offset-4" href="mailto:suslova_1983@mail.ru">suslova_1983@mail.ru</a>.</p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">3. Состав обрабатываемых данных</h2>
+      <p>Через формы обратной связи на Сайте могут быть собраны следующие данные:</p>
+      <ul class="list-disc pl-6 mt-3 space-y-1">
+        <li>имя пользователя;</li>
+        <li>контактные данные (номер телефона, адрес электронной почты);</li>
+        <li>название организации, ИНН (при добровольном указании);</li>
+        <li>планируемый объём заказа и иные сведения, добровольно указанные в форме;</li>
+        <li>технические данные: IP-адрес, идентификатор браузера (User-Agent), дата и время отправки формы, факт и время предоставления согласия.</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">4. Цели обработки</h2>
+      <p>Персональные данные обрабатываются исключительно для:</p>
+      <ul class="list-disc pl-6 mt-3 space-y-1">
+        <li>обратной связи с пользователем по его запросу;</li>
+        <li>предоставления коммерческого предложения и консультаций;</li>
+        <li>исполнения обязательств в рамках договорных отношений.</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">5. Правовые основания</h2>
+      <p>Обработка осуществляется на основании Федерального закона № 152-ФЗ «О персональных данных» и согласия пользователя, выражаемого путём отправки формы на Сайте.</p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">6. Срок и условия хранения</h2>
+      <p>Персональные данные хранятся не дольше, чем этого требуют цели их обработки, и подлежат уничтожению по достижении целей либо в случае отзыва согласия пользователем.</p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">7. Передача третьим лицам</h2>
+      <p>Персональные данные не передаются третьим лицам, за исключением случаев, прямо предусмотренных законодательством Российской Федерации.</p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">8. Cookies и аналитика</h2>
+      <p>Сайт использует технические файлы cookies, необходимые для корректной работы (авторизация, защита от CSRF-атак). Пользователь вправе отключить cookies в настройках браузера, при этом отдельные функции Сайта могут стать недоступны. Аналитические сервисы третьих лиц (счётчики посещаемости) на Сайте не используются.</p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">9. Локализация и защита данных</h2>
+      <p>Обработка персональных данных граждан Российской Федерации, включая сбор, запись, систематизацию, накопление и хранение, осуществляется с использованием баз данных, находящихся на территории Российской Федерации (ч. 5 ст. 18 Федерального закона № 152-ФЗ). Оператор принимает организационные и технические меры по защите данных от неправомерного доступа, изменения, уничтожения или раскрытия.</p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">10. Права пользователя</h2>
+      <p>Пользователь вправе запросить информацию о своих персональных данных, их уточнение, удаление, а также отозвать согласие на обработку, направив соответствующий запрос на адрес <a class="text-primary underline underline-offset-4" href="mailto:suslova_1983@mail.ru">suslova_1983@mail.ru</a>. Запрос рассматривается в срок, не превышающий 30 дней с момента получения. Пользователь также вправе обратиться в уполномоченный орган по защите прав субъектов персональных данных (Роскомнадзор, <a class="text-primary underline underline-offset-4" href="https://rkn.gov.ru" target="_blank" rel="noopener">rkn.gov.ru</a>).</p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">11. Изменения политики</h2>
+      <p>Настоящая Политика может быть изменена без предварительного уведомления. Актуальная редакция всегда доступна на этой странице. Дата вступления в силу последней редакции указана в начале документа.</p>
+    </div>
+
+  </section>
+
+  <div class="mt-16 pt-8 border-t border-stone-200">
+    <a href="{% url 'catalog:home' %}" class="inline-flex items-center gap-2 text-primary font-headline font-bold uppercase tracking-widest text-sm hover:opacity-80">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Вернуться на главную
+    </a>
+  </div>
+</main>
+
+<footer class="bg-stone-100 dark:bg-stone-900 w-full py-10 px-6 md:px-12">
+  <div class="max-w-screen-2xl mx-auto text-xs leading-relaxed text-stone-500 text-center">
+    © 2024–2026 Green Decor. ИНН: 565100366000. Все права защищены.
+  </div>
+</footer>
+{% endblock %}
