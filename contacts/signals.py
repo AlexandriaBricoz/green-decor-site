@@ -41,6 +41,28 @@ def _format_request(r: ContactRequest) -> str:
     return "\n".join(lines)
 
 
+def _send_with_migration(chat_id: str, text: str, markup: dict) -> None:
+    """Отправить сообщение; если группа стала супергруппой — обновить id и повторить."""
+    result = send_message(chat_id, text, reply_markup=markup)
+    if result.get("ok"):
+        return
+    params = (result.get("parameters") or {}) if isinstance(result, dict) else {}
+    new_id = params.get("migrate_to_chat_id")
+    if new_id:
+        try:
+            from catalog.models import SiteSettings
+            obj = SiteSettings.load()
+            obj.telegram_chat_id = str(new_id)
+            obj.save(update_fields=["telegram_chat_id"])
+            logger.info("telegram_chat_id мигрировал: %s → %s", chat_id, new_id)
+        except Exception:
+            logger.exception("не удалось обновить telegram_chat_id после миграции")
+            return
+        result = send_message(new_id, text, reply_markup=markup)
+    if not result.get("ok"):
+        logger.warning("telegram sendMessage не удалось: %s", result)
+
+
 @receiver(post_save, sender=ContactRequest)
 def notify_new_request(sender, instance: ContactRequest, created: bool, **kwargs):
     if not created:
@@ -59,6 +81,4 @@ def notify_new_request(sender, instance: ContactRequest, created: bool, **kwargs
     markup = {"inline_keyboard": [[
         {"text": "✅ Отметить как обработано", "callback_data": f"processed:{instance.pk}"}
     ]]}
-    result = send_message(chat_id, text, reply_markup=markup)
-    if not result.get("ok"):
-        logger.warning("telegram sendMessage не удалось: %s", result)
+    _send_with_migration(chat_id, text, markup)

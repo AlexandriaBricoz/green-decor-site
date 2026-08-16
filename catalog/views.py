@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.db import models
 from django.db.models import F, Sum
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -11,6 +12,7 @@ from django.utils import timezone
 from django.views.decorators.http import require_POST
 
 from contacts.forms import ContactForm
+from contacts.models import ContactRequest
 
 from .forms import PlantForm, SiteSettingsForm
 from .models import Plant, SiteSettings
@@ -152,6 +154,93 @@ def site_settings_edit(request):
         "catalog/settings_form.html",
         {"form": form, "obj": obj},
     )
+
+
+@login_required
+def inbox_list(request):
+    base_qs = ContactRequest.objects.all()
+
+    search = request.GET.get("q", "").strip()
+    if search:
+        base_qs = base_qs.filter(
+            models.Q(name__icontains=search)
+            | models.Q(contact__icontains=search)
+            | models.Q(company__icontains=search)
+            | models.Q(message__icontains=search)
+        )
+
+    status = request.GET.get("status", "all")
+    if status == "new":
+        qs = base_qs.filter(processed=False)
+    elif status == "done":
+        qs = base_qs.filter(processed=True)
+    else:
+        status = "all"
+        qs = base_qs
+
+    total_count = base_qs.count()
+    new_count = base_qs.filter(processed=False).count()
+    done_count = total_count - new_count
+
+    paginator = Paginator(qs.order_by("-created_at"), 20)
+    page_obj = paginator.get_page(request.GET.get("page"))
+
+    return render(
+        request,
+        "catalog/inbox_list.html",
+        {
+            "page_obj": page_obj,
+            "paginator": paginator,
+            "total_count": total_count,
+            "new_count": new_count,
+            "done_count": done_count,
+            "search": search,
+            "status": status,
+        },
+    )
+
+
+@login_required
+def inbox_detail(request, pk):
+    obj = get_object_or_404(ContactRequest, pk=pk)
+    return render(request, "catalog/inbox_detail.html", {"obj": obj})
+
+
+@login_required
+@require_POST
+def inbox_toggle(request, pk):
+    obj = get_object_or_404(ContactRequest, pk=pk)
+    obj.processed = not obj.processed
+    obj.save(update_fields=["processed"])
+    state = "обработана" if obj.processed else "возвращена в новые"
+    messages.success(request, f"Заявка от {obj.name} {state}.")
+    next_url = request.POST.get("next") or reverse("catalog:inbox")
+    return redirect(next_url)
+
+
+@login_required
+def inbox_delete(request, pk):
+    obj = get_object_or_404(ContactRequest, pk=pk)
+    if request.method == "POST":
+        name = obj.name
+        obj.delete()
+        messages.success(request, f"Заявка от {name} удалена.")
+        return redirect("catalog:inbox")
+    return render(request, "catalog/inbox_delete.html", {"obj": obj})
+
+
+@login_required
+def inbox_export_xlsx(request):
+    from contacts.views import _requests_xlsx_bytes
+
+    data = _requests_xlsx_bytes()
+    resp = HttpResponse(
+        data,
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    )
+    today = timezone.localdate().strftime("%Y-%m-%d")
+    resp["Content-Disposition"] = f'attachment; filename="greendecor-requests-{today}.xlsx"'
+    return resp
 
 
 def _plant_thumbnail_bytes(plant, size=(60, 60)):

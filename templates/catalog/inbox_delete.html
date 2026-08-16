@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Удалить заявку — Green Decor{% endblock %}
+{% block body_class %}min-h-screen flex{% endblock %}
+
+{% block body %}
+{% include "catalog/_admin_shell.html" with active_nav="inbox" %}
+
+<main class="md:ml-64 flex-1 flex flex-col">
+  {% include "catalog/_admin_topbar.html" %}
+
+  <section class="flex-1 px-6 md:px-12 py-12 max-w-xl w-full mx-auto">
+
+    <div class="bg-error/5 border border-error/20 rounded-xl p-8">
+      <h1 class="text-2xl font-headline font-extrabold tracking-tight text-error mb-4">Удалить заявку?</h1>
+      <p class="text-on-surface mb-2"><b>{{ obj.name }}</b> — {{ obj.contact }}</p>
+      <p class="text-on-surface-variant text-sm mb-6">
+        {{ obj.created_at|date:"d.m.Y H:i" }} · {{ obj.get_subject_display }}
+      </p>
+      <p class="text-sm text-on-surface-variant mb-8">
+        Действие необратимо. Заявка будет удалена из БД. Сохранённая в Telegram карточка не изменится.
+      </p>
+      <div class="flex items-center justify-end gap-4">
+        <a href="{% url 'catalog:inbox_detail' obj.pk %}" class="text-on-surface font-semibold text-sm hover:underline">Отмена</a>
+        <form method="post">
+          {% csrf_token %}
+          <button type="submit" class="bg-error text-white px-6 py-3 rounded-lg font-headline font-bold uppercase tracking-widest text-xs hover:opacity-90 flex items-center gap-2">
+            <span class="material-symbols-outlined text-base">delete_forever</span>
+            Удалить безвозвратно
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </section>
+</main>
+{% endblock %}
