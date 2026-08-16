@@ -1,6 +1,6 @@
 <header class="flex justify-between items-center px-6 md:px-8 h-20 w-full bg-stone-50 dark:bg-stone-950 font-headline text-sm font-semibold tracking-tight">
   <div class="text-xl font-bold text-green-900 dark:text-green-200 uppercase tracking-widest">
-    Green Decor
+    {{ site_settings.brand_name|default:"Green Decor" }}
   </div>
   <div class="flex items-center gap-6">
     <span class="hidden md:inline text-xs text-on-surface-variant font-label normal-case tracking-normal">

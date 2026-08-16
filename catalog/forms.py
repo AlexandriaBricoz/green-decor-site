@@ -142,6 +142,7 @@ class SiteSettingsForm(forms.ModelForm):
     class Meta:
         model = SiteSettings
         fields = (
+            "brand_name",
             "hero_kicker",
             "hero_title",
             "hero_title_accent",
@@ -160,6 +161,9 @@ class SiteSettingsForm(forms.ModelForm):
             "copyright_text",
         )
         widgets = {
+            "brand_name": forms.TextInput(
+                attrs={"class": _INPUT_CLASS, "placeholder": "Green Decor"}
+            ),
             "hero_kicker": forms.TextInput(
                 attrs={"class": _INPUT_CLASS, "placeholder": "Питомник растений"}
             ),

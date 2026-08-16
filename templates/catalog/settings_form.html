@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Настройки сайта | Green Decor{% endblock %}
+{% block title %}Настройки сайта | {{ site_settings.brand_name|default:"Green Decor" }}{% endblock %}
 {% block body_class %}min-h-screen flex{% endblock %}
 
 {% block body %}
@@ -43,6 +43,18 @@
 
     <form method="post" class="grid grid-cols-12 gap-6">
       {% csrf_token %}
+
+      <!-- Название бренда -->
+      <div class="col-span-12 p-6 md:p-8 bg-primary/5 border border-primary/20 rounded-xl">
+        <h2 class="font-headline font-bold text-lg text-on-surface mb-1">Название бренда</h2>
+        <p class="text-xs text-on-surface-variant mb-4">
+          Меняется <b>везде</b> одним движением: шапка, футер, заголовки вкладок, правовые тексты («Политика конфиденциальности», «Условия использования»), сообщения бота.
+          Пример: чтобы соответствовать законодательству РФ, замените «{{ site_settings.brand_name|default:"Green Decor" }}» на «Грин Декор».
+        </p>
+        <label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2" for="{{ form.brand_name.id_for_label }}">{{ form.brand_name.label }}</label>
+        {{ form.brand_name }}
+        {% if form.brand_name.errors %}<p class="text-xs text-error mt-1">{{ form.brand_name.errors|join:" " }}</p>{% endif %}
+      </div>
 
       <!-- Главная страница -->
       <div class="col-span-12 p-6 md:p-8 bg-surface-container-lowest rounded-xl">
@@ -208,7 +220,7 @@
   </section>
 
   <footer class="flex justify-between items-center px-6 md:px-8 py-6 w-full border-t border-stone-200/40 bg-stone-50 text-xs text-stone-500">
-    <p>© 2024 Green Decor. Система управления оптовым инвентарём.</p>
+    <p>© 2024 {{ site_settings.brand_name|default:"Green Decor" }}. Система управления оптовым инвентарём.</p>
   </footer>
 </main>
 {% endblock %}

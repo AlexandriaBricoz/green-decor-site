@@ -64,13 +64,18 @@ def submit_contact(request):
     )
 
 
-HELP_TEXT = (
-    "<b>Бот Green Decor</b>\n"
+HELP_TEMPLATE = (
+    "<b>Бот {brand}</b>\n"
     "Команды в этом чате:\n"
     "/table — Excel со всеми заявками\n"
     "/start — переустановить чат как получатель уведомлений\n"
     "/help — эта справка"
 )
+
+
+def _help_text() -> str:
+    from catalog.models import SiteSettings
+    return HELP_TEMPLATE.format(brand=SiteSettings.load().brand_name or "Green Decor")
 
 
 def _requests_xlsx_bytes() -> bytes:
@@ -137,7 +142,7 @@ def _handle_message(msg: dict) -> None:
         _save_chat_id(chat_id)
         send_message(
             chat_id,
-            "✅ Бот привязан к этому чату.\n\n" + HELP_TEXT,
+            "✅ Бот привязан к этому чату.\n\n" + _help_text(),
         )
         return
 
@@ -160,7 +165,7 @@ def _handle_message(msg: dict) -> None:
         return
 
     if text.startswith("/help"):
-        send_message(chat_id, HELP_TEXT)
+        send_message(chat_id, _help_text())
         return
 
 

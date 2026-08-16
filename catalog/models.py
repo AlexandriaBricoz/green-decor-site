@@ -4,6 +4,17 @@ from django.db import models
 class SiteSettings(models.Model):
     """Одна запись на весь сайт — контакты, адрес, карта, футер."""
 
+    brand_name = models.CharField(
+        "Название бренда",
+        max_length=100,
+        blank=True,
+        default="Green Decor",
+        help_text=(
+            "Название компании/бренда. Показывается в шапке, футере, "
+            "заголовках вкладок и во всех правовых текстах. Если поле пусто, "
+            "будет использоваться «Green Decor»."
+        ),
+    )
     hero_kicker = models.CharField(
         "Главная — маленькая подпись сверху",
         max_length=100,
