@@ -25,6 +25,10 @@ def privacy(request):
     return render(request, "catalog/privacy.html")
 
 
+def terms(request):
+    return render(request, "catalog/terms.html")
+
+
 @login_required
 def inventory_list(request):
     base_qs = Plant.objects.all()

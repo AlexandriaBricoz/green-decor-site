@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Условия использования — Green Decor{% endblock %}
+
+{% block body %}
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-stone-950/80 backdrop-blur-md shadow-sm shadow-stone-900/5">
+  <div class="flex justify-between items-center px-6 md:px-12 py-6 max-w-screen-2xl mx-auto">
+    <a href="{% url 'catalog:home' %}" class="text-2xl font-bold tracking-tighter text-green-900 dark:text-green-100 font-headline uppercase">
+      Green Decor
+    </a>
+    <a href="{% url 'catalog:home' %}" class="font-headline font-bold uppercase tracking-widest text-xs text-on-surface-variant hover:text-primary transition-colors">
+      На главную
+    </a>
+  </div>
+</nav>
+
+<main class="pt-32 pb-24 px-6 md:px-12 max-w-3xl mx-auto">
+  <header class="mb-12">
+    <span class="inline-block font-headline font-bold uppercase tracking-[0.4em] text-xs text-primary mb-4">Правовая информация</span>
+    <h1 class="text-4xl md:text-5xl font-headline font-extrabold tracking-tight text-on-surface mb-4">Условия использования</h1>
+    <p class="text-sm text-stone-500">Действует с 17 августа 2026 г.</p>
+    <div class="w-24 h-1 bg-primary mt-8"></div>
+  </header>
+
+  <section class="space-y-10 text-on-surface/90 leading-relaxed">
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">1. Общие положения</h2>
+      <p>Настоящие Условия использования (далее — «Условия») регулируют порядок использования сайта Green Decor (далее — «Сайт»). Владелец Сайта: {{ site_settings.legal_entity|default:'ИП Суслова' }}{% if site_settings.inn %}, ИНН {{ site_settings.inn }}{% endif %} (далее — «Питомник»).</p>
+      <p class="mt-3">Начиная использовать Сайт, оставляя заявку или скачивая материалы, пользователь подтверждает, что ознакомился с настоящими Условиями и <a href="{% url 'catalog:privacy' %}" class="text-primary underline underline-offset-2">Политикой конфиденциальности</a>, согласен с ними и обязуется их соблюдать.</p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">2. Назначение сайта</h2>
+      <p>Сайт носит информационно-справочный характер. На нём размещаются сведения о выращиваемых Питомником растениях, их характеристиках, ориентировочные цены, а также контактные данные для связи с менеджерами.</p>
+      <p class="mt-3">Прайс-лист в формате Excel и любые каталожные материалы отражают состояние ассортимента и цен на момент формирования и не являются публичной офертой. Актуальную стоимость, наличие и условия поставки менеджер подтверждает индивидуально при обработке заявки.</p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">3. Заявки и порядок работы</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>Заявка через форму на Сайте — это выражение интереса, а не заключение договора. Договорные отношения возникают после согласования условий с менеджером Питомника.</li>
+        <li>Пользователь обязуется предоставлять достоверные контактные данные. Ложные или неполные сведения могут привести к отказу в обработке заявки.</li>
+        <li>Питомник вправе отказать в поставке без объяснения причин, в том числе при подозрении на недобросовестное использование Сайта.</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">4. Интеллектуальная собственность</h2>
+      <p>Все материалы Сайта (тексты, фотографии, прайс-листы, дизайн, логотип) охраняются законодательством РФ об авторском праве и смежных правах. Использование материалов без письменного согласия Питомника не допускается, за исключением:</p>
+      <ul class="list-disc pl-6 space-y-2 mt-3">
+        <li>сохранения прайс-листа для внутреннего использования при подготовке заказа;</li>
+        <li>цитирования с указанием источника — ссылки на greendecor056.ru.</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">5. Правила использования Сайта</h2>
+      <p>Пользователь обязуется не совершать действий, направленных на:</p>
+      <ul class="list-disc pl-6 space-y-2 mt-3">
+        <li>нарушение работоспособности Сайта, обход систем защиты или автоматизированный съём данных без согласования;</li>
+        <li>массовую отправку заявок, рекламных или иных сообщений через формы Сайта;</li>
+        <li>размещение через формы Сайта запрещённой законодательством РФ информации.</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">6. Ограничение ответственности</h2>
+      <p>Питомник прилагает разумные усилия для поддержания актуальности сведений, однако не гарантирует точность и полноту информации на 100 %. Питомник не несёт ответственности за возможные ошибки в описаниях, за временную недоступность Сайта, а также за убытки, возникшие в результате использования или невозможности использования Сайта.</p>
+      <p class="mt-3">Все существенные условия поставки (наличие, цена, размеры, сроки, условия доставки) подтверждаются в переписке или по телефону через менеджера Питомника.</p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">7. Изменение Условий</h2>
+      <p>Питомник вправе в одностороннем порядке вносить изменения в настоящие Условия. Актуальная редакция всегда доступна по адресу greendecor056.ru/terms/. Продолжение использования Сайта после публикации изменений означает согласие с новой редакцией.</p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">8. Применимое право и разрешение споров</h2>
+      <p>К отношениям, возникающим из настоящих Условий, применяется законодательство Российской Федерации. Все споры, не урегулированные путём переговоров, подлежат рассмотрению по месту нахождения Питомника в порядке, установленном законодательством РФ.</p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">9. Контакты</h2>
+      <p>{{ site_settings.legal_entity|default:'ИП Суслова' }}{% if site_settings.inn %} · ИНН {{ site_settings.inn }}{% endif %}</p>
+      {% if site_settings.address %}<p>Адрес: {{ site_settings.address }}</p>{% endif %}
+      {% if site_settings.email %}<p>Email: <a href="mailto:{{ site_settings.email }}" class="text-primary underline underline-offset-2">{{ site_settings.email }}</a></p>{% endif %}
+      {% for phone in site_settings.phones_list %}
+      <p>Телефон: <a href="{{ phone.href }}" class="text-primary underline underline-offset-2">{{ phone.label }}</a></p>
+      {% endfor %}
+    </div>
+
+  </section>
+</main>
+{% endblock %}

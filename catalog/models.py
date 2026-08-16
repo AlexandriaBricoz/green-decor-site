@@ -97,6 +97,16 @@ class SiteSettings(models.Model):
         blank=True,
         default="© 2024–2026 Green Decor · ИП Суслова · ИНН: 565100366000. Все права защищены.",
     )
+    telegram_chat_id = models.CharField(
+        "Telegram chat ID",
+        max_length=50,
+        blank=True,
+        default="",
+        help_text=(
+            "Заполняется автоматически, когда вы напишете боту команду /start в группе. "
+            "Пока пусто — уведомления не отправляются."
+        ),
+    )
 
     class Meta:
         verbose_name = "Настройки сайта"

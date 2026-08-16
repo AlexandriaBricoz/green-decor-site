@@ -144,6 +144,13 @@ if not DEBUG:
     SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
     X_FRAME_OPTIONS = "DENY"
 
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+TELEGRAM_WEBHOOK_SECRET = os.environ.get("TELEGRAM_WEBHOOK_SECRET", "")
+TELEGRAM_BASE_URL = os.environ.get("TELEGRAM_BASE_URL", "")
+# Прокси перед api.telegram.org (нужен, если сервер в РФ и Telegram заблокирован).
+# Например: https://tg-proxy.your-name.workers.dev
+TELEGRAM_API_BASE = os.environ.get("TELEGRAM_API_BASE", "")
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
