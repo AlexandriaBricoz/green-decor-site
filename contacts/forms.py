@@ -33,14 +33,9 @@ class ContactForm(forms.ModelForm):
             )
         },
     )
-    marketing_consent = forms.BooleanField(
-        required=False,
-        label="Я хочу получать от вас информационную рассылку со специальными предложениями",
-    )
-
     class Meta:
         model = ContactRequest
-        fields = ("name", "contact", "company", "consent_given", "marketing_consent")
+        fields = ("name", "contact", "company", "consent_given")
         widgets = {
             "name": forms.TextInput(
                 attrs={"placeholder": "Иван Иванов", "class": _FIELD_CLASS, "autocomplete": "name"}

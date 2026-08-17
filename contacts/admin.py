@@ -5,7 +5,7 @@ from .models import ContactRequest
 
 @admin.register(ContactRequest)
 class ContactRequestAdmin(admin.ModelAdmin):
-    list_display = ("name", "company", "contact", "marketing_consent", "processed", "created_at")
-    list_filter = ("subject", "processed", "marketing_consent", "created_at")
+    list_display = ("name", "company", "contact", "processed", "created_at")
+    list_filter = ("subject", "processed", "created_at")
     search_fields = ("name", "contact", "company", "message")
     readonly_fields = ("created_at", "consent_at", "source_ip", "user_agent")

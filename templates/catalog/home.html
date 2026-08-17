@@ -131,16 +131,6 @@
           <p class="text-xs text-on-surface-variant leading-relaxed">
             Менеджер свяжется в течение рабочего дня и подготовит коммерческое предложение под ваш объём.
           </p>
-          <!-- Маркетинговое согласие (необязательное) -->
-          <label class="flex items-center gap-4 p-4 border border-stone-200 rounded-xl cursor-pointer hover:bg-stone-50 transition-colors">
-            <input type="checkbox" name="marketing_consent" value="on"
-                   class="h-5 w-5 rounded-full border-stone-300 text-primary focus:ring-primary/40 flex-shrink-0"
-                   {% if contact_form.marketing_consent.value %}checked{% endif %}/>
-            <span class="text-sm text-on-surface leading-snug">
-              {{ contact_form.marketing_consent.label }}
-            </span>
-          </label>
-
           <!-- Обязательное согласие на ПДн -->
           <label class="flex items-center gap-4 p-4 border border-stone-200 rounded-xl cursor-pointer hover:bg-stone-50 transition-colors">
             <input type="checkbox" name="consent_given" value="on" required

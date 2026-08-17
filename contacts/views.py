@@ -88,7 +88,7 @@ def _requests_xlsx_bytes() -> bytes:
     ws = wb.active
     ws.title = "Заявки"
 
-    header = ["Дата", "Имя", "Контакт", "Компания", "Тема", "Сообщение", "Рассылка", "IP", "Обработано"]
+    header = ["Дата", "Имя", "Контакт", "Компания", "Тема", "Сообщение", "IP", "Обработано"]
     ws.append(header)
     for cell in ws[1]:
         cell.font = Font(bold=True, color="FFFFFF")
@@ -104,12 +104,11 @@ def _requests_xlsx_bytes() -> bytes:
             r.company,
             r.get_subject_display(),
             r.message,
-            "да" if r.marketing_consent else "нет",
             r.source_ip or "",
             "да" if r.processed else "нет",
         ])
 
-    widths = [16, 22, 26, 26, 22, 44, 12, 16, 14]
+    widths = [16, 22, 26, 26, 22, 44, 16, 14]
     for i, w in enumerate(widths, start=1):
         ws.column_dimensions[get_column_letter(i)].width = w
     ws.freeze_panes = "A2"
