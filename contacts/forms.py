@@ -25,18 +25,22 @@ class ContactForm(forms.ModelForm):
     )
     consent_given = forms.BooleanField(
         required=True,
-        label=(
-            "Согласен(на) на обработку персональных данных в соответствии с "
-            "Федеральным законом № 152-ФЗ и политикой конфиденциальности."
-        ),
+        label="Я ознакомился и согласен со следующими документами:",
         error_messages={
-            "required": "Для отправки заявки необходимо согласие на обработку персональных данных."
+            "required": (
+                "Для отправки заявки необходимо ознакомиться и согласиться "
+                "с Политикой конфиденциальности и Согласием на обработку персональных данных."
+            )
         },
+    )
+    marketing_consent = forms.BooleanField(
+        required=False,
+        label="Я хочу получать от вас информационную рассылку со специальными предложениями",
     )
 
     class Meta:
         model = ContactRequest
-        fields = ("name", "contact", "company", "consent_given")
+        fields = ("name", "contact", "company", "consent_given", "marketing_consent")
         widgets = {
             "name": forms.TextInput(
                 attrs={"placeholder": "Иван Иванов", "class": _FIELD_CLASS, "autocomplete": "name"}

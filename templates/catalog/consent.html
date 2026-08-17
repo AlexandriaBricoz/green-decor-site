@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Согласие на обработку персональных данных — {{ site_settings.brand_name|default:"Green Decor" }}{% endblock %}
+
+{% block body %}
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-stone-950/80 backdrop-blur-md shadow-sm shadow-stone-900/5">
+  <div class="flex justify-between items-center px-6 md:px-12 py-6 max-w-screen-2xl mx-auto">
+    <a href="{% url 'catalog:home' %}" class="text-2xl font-bold tracking-tighter text-green-900 dark:text-green-100 font-headline uppercase">
+      {{ site_settings.brand_name|default:"Green Decor" }}
+    </a>
+    <a href="{% url 'catalog:home' %}" class="font-headline font-bold uppercase tracking-widest text-xs text-on-surface-variant hover:text-primary transition-colors">
+      На главную
+    </a>
+  </div>
+</nav>
+
+<main class="pt-32 pb-24 px-6 md:px-12 max-w-3xl mx-auto">
+  <header class="mb-12">
+    <span class="inline-block font-headline font-bold uppercase tracking-[0.4em] text-xs text-primary mb-4">Правовая информация</span>
+    <h1 class="text-4xl md:text-5xl font-headline font-extrabold tracking-tight text-on-surface mb-4">
+      Согласие на обработку персональных данных
+    </h1>
+    <p class="text-sm text-stone-500">Действует с 17 августа 2026 г.</p>
+    <div class="w-24 h-1 bg-primary mt-8"></div>
+  </header>
+
+  <section class="space-y-10 text-on-surface/90 leading-relaxed">
+
+    <div>
+      <p>
+        Оставляя заявку на сайте {{ site_settings.brand_name|default:"Green Decor" }} (далее — «Сайт»), пользователь (далее — «Субъект персональных данных»)
+        в соответствии с требованиями Федерального закона от 27.07.2006 № 152-ФЗ «О персональных данных» даёт
+        {{ site_settings.legal_entity|default:'ИП Суслова' }}{% if site_settings.inn %} (ИНН {{ site_settings.inn }}){% endif %},
+        {% if site_settings.address %}адрес: {{ site_settings.address }},{% endif %}
+        (далее — «Оператор») согласие на обработку своих персональных данных на условиях, указанных ниже.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">1. Перечень персональных данных</h2>
+      <p>Оператор обрабатывает следующие категории персональных данных:</p>
+      <ul class="list-disc pl-6 space-y-2 mt-3">
+        <li>фамилия, имя (данные, указанные Субъектом в поле «Имя»);</li>
+        <li>телефон и/или адрес электронной почты (поле «Контакт»);</li>
+        <li>наименование организации и ИНН (поле «Компания», если указано);</li>
+        <li>текст сообщения / описание запроса;</li>
+        <li>IP-адрес отправителя и User-Agent браузера — фиксируются автоматически.</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">2. Цели обработки</h2>
+      <ul class="list-disc pl-6 space-y-2">
+        <li>подготовка и направление коммерческого предложения по заявке Субъекта;</li>
+        <li>обратная связь с Субъектом (звонок, письмо) в рамках заявки;</li>
+        <li>исполнение договорных обязательств по поставке растений;</li>
+        <li>ведение внутреннего учёта заявок и качества обслуживания;</li>
+        <li>защита прав и законных интересов Оператора.</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">3. Действия с персональными данными</h2>
+      <p>
+        Оператор осуществляет сбор, запись, систематизацию, накопление, хранение, уточнение (обновление, изменение),
+        извлечение, использование, передачу (только уполномоченным сотрудникам Оператора и, при необходимости,
+        службам доставки в объёме, необходимом для исполнения заказа), обезличивание, блокирование, удаление
+        и уничтожение персональных данных.
+      </p>
+      <p class="mt-3">
+        Обработка осуществляется как с использованием средств автоматизации, так и без таковых. Персональные данные
+        не передаются третьим лицам в маркетинговых целях без отдельного согласия Субъекта. Данные хранятся
+        на серверах, расположенных на территории Российской Федерации, что соответствует требованиям
+        Федерального закона № 242-ФЗ.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">4. Срок действия и хранения</h2>
+      <p>
+        Согласие даётся на срок, необходимый для достижения целей обработки, но не более 5 (пяти) лет с момента
+        его предоставления, если иное не предусмотрено законодательством РФ. По истечении срока действия
+        персональные данные подлежат уничтожению.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">5. Отзыв согласия</h2>
+      <p>
+        Согласие может быть отозвано Субъектом в любой момент путём направления письменного заявления Оператору
+        по адресу электронной почты
+        {% if site_settings.email %}
+        <a href="mailto:{{ site_settings.email }}" class="text-primary underline underline-offset-2">{{ site_settings.email }}</a>
+        {% else %}
+        Оператора
+        {% endif %}
+        либо по почтовому адресу Оператора.
+        В случае отзыва Оператор обязан прекратить обработку и уничтожить персональные данные в срок,
+        не превышающий 30 (тридцати) дней с момента получения отзыва, за исключением случаев, когда
+        сохранение данных требуется в силу закона.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">6. Права субъекта персональных данных</h2>
+      <p>Субъект имеет право:</p>
+      <ul class="list-disc pl-6 space-y-2 mt-3">
+        <li>получать информацию о факте, целях, способах и сроках обработки своих персональных данных;</li>
+        <li>требовать уточнения, блокирования или уничтожения данных, если они неполны, устарели, недостоверны
+          или незаконно получены;</li>
+        <li>обжаловать действия или бездействие Оператора в уполномоченный орган —
+          <a href="https://rkn.gov.ru/" target="_blank" rel="noopener" class="text-primary underline underline-offset-2">Роскомнадзор</a>
+          — или в суд.</li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="text-2xl font-headline font-bold mb-4">7. Подтверждение согласия</h2>
+      <p>
+        Проставление отметки «я ознакомился и согласен со следующими документами» в форме на Сайте
+        является добровольным, конкретным, информированным и сознательным волеизъявлением Субъекта
+        на обработку персональных данных на условиях настоящего Согласия и
+        <a href="{% url 'catalog:privacy' %}" class="text-primary underline underline-offset-2">Политики конфиденциальности</a>.
+      </p>
+    </div>
+
+  </section>
+</main>
+{% endblock %}

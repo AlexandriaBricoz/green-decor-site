@@ -8,6 +8,7 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("privacy/", views.privacy, name="privacy"),
     path("terms/", views.terms, name="terms"),
+    path("consent/", views.consent, name="consent"),
     path("price-list.xlsx", views.price_list_xlsx, name="price_xlsx"),
     path("admin/price-list.xlsx", views.price_list_xlsx_legacy),
     path("admin/", views.inventory_list, name="inventory"),

@@ -100,6 +100,10 @@
         {% if obj.consent_given %}
         <p><span class="uppercase font-headline font-bold tracking-widest text-stone-400">Согласие 152-ФЗ:</span> ✓ {{ obj.consent_at|date:"d.m.Y H:i" }}</p>
         {% endif %}
+        <p>
+          <span class="uppercase font-headline font-bold tracking-widest text-stone-400">Маркетинговая рассылка:</span>
+          {% if obj.marketing_consent %}<span class="text-primary font-semibold">✓ разрешена</span>{% else %}<span class="text-stone-400">не согласились</span>{% endif %}
+        </p>
         {% if obj.source_ip %}<p><span class="uppercase font-headline font-bold tracking-widest text-stone-400">IP:</span> {{ obj.source_ip }}</p>{% endif %}
         {% if obj.user_agent %}<p class="break-all"><span class="uppercase font-headline font-bold tracking-widest text-stone-400">User-Agent:</span> {{ obj.user_agent }}</p>{% endif %}
       </div>

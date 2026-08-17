@@ -34,6 +34,11 @@ class ContactRequest(models.Model):
         default=False,
     )
     consent_at = models.DateTimeField("Дата согласия", null=True, blank=True)
+    marketing_consent = models.BooleanField(
+        "Согласие на маркетинговую рассылку",
+        default=False,
+        help_text="Клиент явно согласился получать информационные письма.",
+    )
     source_ip = models.GenericIPAddressField("IP отправителя", null=True, blank=True)
     user_agent = models.CharField("User-Agent", max_length=500, blank=True, default="")
     created_at = models.DateTimeField("Создано", auto_now_add=True)

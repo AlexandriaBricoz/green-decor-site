@@ -31,6 +31,10 @@ def terms(request):
     return render(request, "catalog/terms.html")
 
 
+def consent(request):
+    return render(request, "catalog/consent.html")
+
+
 @login_required
 def inventory_list(request):
     base_qs = Plant.objects.all()
